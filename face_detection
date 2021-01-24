@@ -1,0 +1,31 @@
+#importing OpenCV library
+import cv2 as cv
+
+#using haarcascade frontal face detector from OpenCV 
+haar_cascade = cv.CascadeClassifier("haarcascade_frontalface_default.xml")
+
+#capturing video from system camera
+vid = cv.VideoCapture(0)
+
+while True:
+    ret, frame = vid.read()
+    
+    #converting to grayscale image
+    gray = cv.cvtColor(frame,cv.COLOR_BGR2GRAY)
+    
+    #detecting faces in photo
+    faces = haar_cascade.detectMultiScale(gray)
+    
+    #drawing a rectangle over faces
+    for (x,y,w,h) in faces:
+        cv.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),2)
+        
+    #showing live face detection with rectangle    
+    cv.imshow("Live Face Detection",frame)
+    
+    #press 'q' from keyboard to exit.
+    if cv.waitKey(1) & 0xFF == ord('q'): 
+        break
+
+vid.release()
+cv.destroyAllWindows()
